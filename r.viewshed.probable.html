@@ -1,0 +1,84 @@
+<div class="toc">
+<h4 class="toc">Table of contents</h4>
+<ul class="toc">
+    <li class="toc"><a href="#description" class="toc">DESCRIPTION</a>
+    <li class="toc"><a href="#notes" class="toc">NOTES</a></li>
+    <li class="toc"><a href="#examples" class="toc">EXAMPLE</a></li>
+    <li class="toc"><a href="#see-also" class="toc">SEE ALSO</a></li>
+    <li class="toc"><a href="#author" class="toc">AUTHOR</a></li>
+    <li class="toc"><a href="#references" class="toc">REFERENCES</a></li>
+</ul>
+</div>
+
+<h2><a name="description">DESCRIPTION</a></h2>
+
+<em>r.viewshed.probable</em> determines to what extent errors present in the DEM
+input can affect the viewshed analysis. It does this by running a number of user-defined 
+simulations. Each time a user-defined level of error (rmse) is introduced in the DEM and 
+distributed randomly in the raster map. Then viewshed analysis is run using the input 
+vector points. The results of all simulations are at the end summed and divided by
+their number. The output is a raster where values of 1 indicate cells that were visible 
+during all simulations, despite the infiltrated error. Lower values indicate cells which
+are normally less likely to be visible. If the input vector contains more than one point,
+it will do the same operation to all of them.
+
+<h2><a name="notes">NOTES</a></h2>
+
+The module uses r.viewshed. It requires the same inputs, and can use the same flags.
+It also uses r.random.surface to distribute the error spatially, and r.series to combine
+the viewshed rasters.
+
+After finishing the operations, the module does not load automatically the output(s) for 
+display. For the moment only works manually.
+
+<h2><a name="examples">EXAMPLE</a></h2>
+
+With default parameters and flags -c (consider curvature of the earth) and -r (consider the 
+effect of atmospheric refraction) enabled, level of error (rmse) set to 12.9 m, and maximum 
+viewshed computation distance set to 3 km:<br>
+<div class="code"><pre>
+r.viewshed.probable -c -r vect=singlePt rast=DEM output=singleTest rmse=12.9 max_distance=3000
+</pre></div>
+
+With default parameters and flags -c (consider curvature of the earth) and -r (consider the 
+effect of atmospheric refraction) enabled, level of error (rmse) set to 3 m, maximum viewshed 
+computation distance set to 3 km, and number of simulations considered 10:<br>
+<div class="code"><pre>
+r.viewshed.probable -c -r vect=singlePt rast=DEM output=singleTest rmse=3 max_distance=3000 
+num_simulations=10
+</pre></div>
+
+With default parameters and flags -c (consider curvature of the earth) and -r (consider the 
+effect of atmospheric refraction) enabled, level of error (rmse) set to 3 m, maximum viewshed 
+computation distance set to 3 km, number of simulations considered 4:<br>
+<div class="code"><pre>
+r.viewshed.probable -c -r vect=multiplPt rast=DEM output=multiplTest rmse=3 max_distance=3000 
+num_simulations=4
+</pre></div>
+
+
+<h2><a name="see-also">SEE ALSO</a></h2>
+
+<em>
+<a href="r.viewshed.html">r.viewshed</a>,
+<a href="r.random.surface.html">r.random.surface</a>,
+<a href="r.series.html">r.series</a>
+</em>
+
+
+<h2><a name="author">AUTHOR</a></h2>
+
+Nagy Edmond
+
+<h2><a name="references">REFERENCES</a></h2>
+
+<p>Fisher, P.F., 1995. An exploration of probable viewsheds in landscape planning.  Environment and Planning B: Planning and Design, 22, 527-546.</p>
+
+<p>
+<a href="http://grass.osgeo.org">GRASS Development Team</a>,
+GRASS GIS 7.0.4 Reference Manual
+</p>
+
+</div>
+</body>
+</html>
